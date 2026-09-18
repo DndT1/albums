@@ -1,12 +1,18 @@
 ---
-title: "Albums"
+title: "Album Covers"
 execute:
   echo: false
   message: false
   warning: false
 ---
 
-Explore the album collection below. You can search, sort by release date or track count, and browse interactively:
+::: {.hero-title}
+Album Covers
+:::
+
+::: {.hero-sub}
+Discover iconic album art, tracklists, and discographies. Hover over any album cover to zoom in, or search by artist and title!
+:::
 
 ```{r}
 library(tidyverse)
@@ -27,7 +33,7 @@ albums <- bind_rows(hiphop, bruce) |>
     releaseDate = as.Date(releaseDate),
     Cover = paste0(
       '<img src="', artworkUrl100,
-      '" width="60" style="border-radius: 8px; box-shadow: 0 4px 10px rgba(168, 85, 247, 0.45);">'
+      '" class="album-cover-img" width="60">'
     ),
     Artist = paste0('<span style="color: #38bdf8; font-weight: 600;">', artistName, '</span>'),
     Genre = case_when(
