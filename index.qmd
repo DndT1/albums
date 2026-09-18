@@ -12,12 +12,44 @@ Explore the album collection below. You can search, sort by release date or trac
 library(tidyverse)
 library(DT)
 
-albums <- read_csv("data/bruce/albums.csv", show_col_types = FALSE) |>
+# Load Bruce Springsteen albums
+bruce <- read_csv("data/bruce/albums.csv", show_col_types = FALSE) |>
+  mutate(artistName = "Bruce Springsteen") |>
+  select(artistName, collectionName, releaseDate, trackCount, primaryGenreName, artworkUrl100)
+
+# Load classic Hip-Hop albums
+hiphop <- read_csv("data/hiphop_albums.csv", show_col_types = FALSE) |>
+  select(artistName, collectionName, releaseDate, trackCount, primaryGenreName, artworkUrl100)
+
+# Combine datasets and style fields
+albums <- bind_rows(hiphop, bruce) |>
   mutate(
     releaseDate = as.Date(releaseDate),
-    Cover = paste0('<img src="', artworkUrl100, '" width="60">')
+    Cover = paste0(
+      '<img src="', artworkUrl100,
+      '" width="60" style="border-radius: 8px; box-shadow: 0 4px 10px rgba(168, 85, 247, 0.45);">'
+    ),
+    Artist = paste0('<span style="color: #38bdf8; font-weight: 600;">', artistName, '</span>'),
+    Genre = case_when(
+      str_detect(primaryGenreName, "Hip-Hop") ~ '<span class="badge" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white; padding: 6px 10px; border-radius: 12px; font-weight: 500;">Hip-Hop/Rap</span>',
+      TRUE ~ '<span class="badge" style="background: linear-gradient(135deg, #f97316, #ef4444); color: white; padding: 6px 10px; border-radius: 12px; font-weight: 500;">Rock</span>'
+    )
   ) |>
-  select(Cover, Title = collectionName, `Release Date` = releaseDate, Tracks = trackCount, Genre = primaryGenreName)
+  select(
+    Cover,
+    Artist,
+    Title = collectionName,
+    `Release Date` = releaseDate,
+    Tracks = trackCount,
+    Genre
+  )
 
-datatable(albums, escape = FALSE, options = list(pageLength = 6, autoWidth = TRUE))
+datatable(
+  albums,
+  escape = FALSE,
+  options = list(
+    pageLength = 7,
+    autoWidth = TRUE
+  )
+)
 ```
