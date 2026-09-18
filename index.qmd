@@ -1,7 +1,23 @@
 ---
-title: "website"
+title: "Albums"
+execute:
+  echo: false
+  message: false
+  warning: false
 ---
 
-This is a Quarto website.
+Explore the album collection below. You can search, sort by release date or track count, and browse interactively:
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+```{r}
+library(tidyverse)
+library(DT)
+
+albums <- read_csv("data/bruce/albums.csv", show_col_types = FALSE) |>
+  mutate(
+    releaseDate = as.Date(releaseDate),
+    Cover = paste0('<img src="', artworkUrl100, '" width="60">')
+  ) |>
+  select(Cover, Title = collectionName, `Release Date` = releaseDate, Tracks = trackCount, Genre = primaryGenreName)
+
+datatable(albums, escape = FALSE, options = list(pageLength = 6, autoWidth = TRUE))
+```
