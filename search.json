@@ -1,16 +1,16 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Albums",
+    "section": "",
+    "text": "Explore the album collection below. You can search, sort by release date or track count, and browse interactively:"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
     "text": "About this site"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "website",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   }
 ]
